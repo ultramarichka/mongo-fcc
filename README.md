@@ -292,7 +292,7 @@ For the purpose of this lesson, assume that the username property is unique.
 
 ## HINTS
 
-To update a document, one would need to call update() on the collection.
+To update a document, one would need to call `update()` on the collection.
 
 Ex.
 
@@ -311,7 +311,7 @@ Ex.
     // document was updated
     // { a: 2, b: 1 }
 
-The first argument to update() is the query. This query is what filters the documents that we are wanting to update. The second argument is an object of the properties to update. Pay close attention to the $set property. If we were to omit $set, the document would be replaced with the object represented by the second argument.
+The first argument to update() is the `query`. This query is what filters the documents that we are wanting to update. The second argument is an object of the properties to update. Pay close attention to the `$set` property. If we were to omit $set, the document would be replaced with the object represented by the second argument.
 
 If your program does not finish executing, you may have forgotten to
 close the db. That can be done by calling db.close() after you
@@ -341,12 +341,10 @@ mongo.connect(url, function(err, client){
     }, function(err){
        assert.equal(null, err);
        client.close();      //to avoid asyncronous closing of database,  while updating
-    });
-   
-   
+    }); 
 });  
 ```
-
+official solution
 ```js
 var mongo = require('mongodb').MongoClient
     
@@ -367,3 +365,53 @@ var mongo = require('mongodb').MongoClient
     })
 ```
 
+## 7. REMOVE (doc from the collection)
+
+This lesson involves removing a document with the given _id.
+
+The database name will be accessible via process.argv[2].
+
+The collection name will be passed as the second argument to your script.
+
+The _id will be passed as the third argument to your script.
+
+-------------------------------------------------------------------------------
+
+## HINTS
+
+To remove a document, one would need to call remove() on the collection.
+
+Ex.
+
+    
+    collection.remove({
+      name: 'foo'
+    }, callback)
+
+The first argument to remove() is the query.
+
+If your program does not finish executing, you may have forgotten to
+close the db. That can be done by calling db.close() after you
+have finished.
+
+## Resource
+
+  * http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#remove
+
+```js
+var mongo = require('mongodb').MongoClient;
+var assert = require('assert');
+var url = 'mongodb://localhost:27017';
+
+mongo.connect(url, function(err, client){
+   if(err){throw err.message;}
+   var thebase = client.db(process.argv[2]);
+   var collection = thebase.collection(process.argv[3]);
+   
+   collection.remove({_id: process.argv[4]}, function(err){
+     assert.equal(null, err);
+     client.close(); 
+   });
+   
+});
+```
