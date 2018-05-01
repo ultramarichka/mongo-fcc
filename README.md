@@ -489,7 +489,7 @@ like so:
     }
 
 In this exercise, we need to calculate the average price for all documents
-in the prices collection in the database named learnyoumongo that have
+in the prices collection in the database named `learnyoumongo` that have
 the size that will be passed as the first argument to your script.
 
 Use console.log() to print the average price rounded to 2 decimal places
@@ -499,14 +499,14 @@ to stdout after you have found it.
 
 ### HINTS
 
-To use the aggregate() function, one first needs the collection.
+To use the `aggregate()` function, one first needs the collection.
 The aggregate() function takes an array of objects as the first argument.
 
 This array will contain the different pipelines for the aggregation.
-To read more about pipelines, please visit [Aggregation](http://docs.mongodb.org/manual/core/aggregation-introduction/).
+To read more about `pipelines`, please visit [Aggregation](http://docs.mongodb.org/manual/core/aggregation-introduction/).
 To read more about aggregate(), please visit [`aggregate()`](http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#aggregate).
 
-The two main pipeline stages we will use will be $match and $group.
+The two main pipeline stages we will use will be `$match` and `$group`.
 
 #### $match
 
@@ -564,7 +564,7 @@ Other operators used in the $group stage include:
 
 ### Rounding
 
-The Number prototype contains a function toFixed(), which accepts the
+The Number prototype contains a function `toFixed()`, which accepts the
 number of decimal places you would like to round to, and returns a string
 representation.
 
@@ -573,7 +573,7 @@ representation.
       // => '1.00000'
 
 If your program does not finish executing, you may have forgotten to
-close the db. That can be done by calling db.close() after you
+close the db. That can be done by calling `db.close()` after you
 have finished.
 
 ### Resources
