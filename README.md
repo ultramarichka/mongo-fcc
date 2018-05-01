@@ -583,7 +583,6 @@ have finished.
   * http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#aggregate
 
 ```js
-//
 var mongo = require('mongodb').MongoClient;
 var assert = require('assert');
 var url = 'mongodb://localhost:27017';
