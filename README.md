@@ -180,7 +180,7 @@ mongo.connect(url, function(err, client){
 
 Connect to MongoDB on port 27017.
 You should connect to the database named learnyoumongo and insert
-a document into the docs collection.
+a document into the `docs` collection.
 
 The document should be a json document with the following properties:
 
@@ -214,7 +214,7 @@ Ex.
     
     })
 
-If you get a Connection Refused error, make sure that mongod is still
+If you get a Connection Refused error, make sure that `mongod` is still
 running.
 
 After you have successfully connected, you will need to specify a collection.
@@ -239,7 +239,7 @@ To insert a document, one would need to call insert() on the collection, like th
     })
 
 If your program does not finish executing, you may have forgotten to
-close the db. That can be done by calling db.close() after you
+close the db. That can be done by calling `db.close()` after you
 have finished.
 
 ### Resource
@@ -264,12 +264,106 @@ mongo.connect(url, function(err, client){
   
    collection.insert(makeJson, function(err, result) {  
         if(err!=null){throw err;}
-        
-        console.log(JSON.stringify(makeJson));
-        
+        console.log(JSON.stringify(makeJson)); 
     });
-    
     client.close();
 });
+```
+
+## 6. UPDATE (doc in the collection)
+
+Here we are going to update a document in the users collection.
+
+The database name will be accessible via process.argv[2].
+
+Say we have a user defined like:
+
+    {
+      "name": "Tina",
+      "age": 30,
+      "username": "tinatime"
+    }
+
+We want to change Tina's age from 30 to 40.
+
+For the purpose of this lesson, assume that the username property is unique.
+
+-------------------------------------------------------------------------------
+
+## HINTS
+
+To update a document, one would need to call update() on the collection.
+
+Ex.
+
+    
+    // document
+    // { a: 2, b: 3 }
+    
+    collection.update({
+      a: 2
+    }, {
+      $set: {
+        b: 1
+      }
+    }, callback)
+    
+    // document was updated
+    // { a: 2, b: 1 }
+
+The first argument to update() is the query. This query is what filters the documents that we are wanting to update. The second argument is an object of the properties to update. Pay close attention to the $set property. If we were to omit $set, the document would be replaced with the object represented by the second argument.
+
+If your program does not finish executing, you may have forgotten to
+close the db. That can be done by calling db.close() after you
+have finished.
+
+## Resources
+
+  * http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#update
+  * http://docs.mongodb.org/manual/tutorial/modify-documents/
+  * http://docs.mongodb.org/manual/reference/operator/update/set/#set
+
+```js
+//
+var mongo = require('mongodb').MongoClient;
+var assert = require('assert');
+var url = 'mongodb://localhost:27017/learnyoumongo';
+
+mongo.connect(url, function(err, client){
+   if(err){throw err.message;}
+   var thebase = client.db(process.argv[2]);
+   var collection = thebase.collection('users');
+   
+   collection.update({name: "Tina", age: 30}, {
+      $set: {
+        age: 40
+      }
+    }, function(err){
+       assert.equal(null, err);
+       client.close();      //to avoid asyncronous closing of database,  while updating
+    });
+   
+   
+});  
+```
+
+```js
+var mongo = require('mongodb').MongoClient
+    
+    var url = 'mongodb://localhost:27017/' + process.argv[2]
+    mongo.connect(url, function(err, db) {
+      if (err) throw err
+      var collection = db.collection('users')
+      collection.update({
+        username: 'tinatime'
+      }, {
+        $set: {
+          age: 40
+        }
+      }, function(err) {
+        if (err) throw err
+        db.close()
+      })
+    })
 ```
 
