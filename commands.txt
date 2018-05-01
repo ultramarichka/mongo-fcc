@@ -1,0 +1,4 @@
+mongod --dbpath /data1 --repair
+./mongod
+./mongod --repair
+disown "%./mongod" 
