@@ -65,7 +65,7 @@ To connect to the database, one can use something like this:
       // db gives access to the database
     })
 
-To get a collection, one can use db.collection('<collection name>').
+To get a collection, one can use `db.collection('<collection name>')`.
 
 To find a document or documents, one needs to call `find()` on the collection.
 
@@ -93,7 +93,7 @@ have finished.
 ```js
 //search for documents in the database where age is greater than in process.argv[2]
 var mongo = require('mongodb').MongoClient;
-var assert = require('assert');
+var assert = require('assert'); //for handling error
 var url = 'mongodb://localhost:27017/learnyoumongo';
 
 mongo.connect(url, function(err, client){
@@ -176,5 +176,100 @@ mongo.connect(url, function(err, client){
     client.close();
 });
 ```
+## 5. INSERT (doc into collection)
 
+Connect to MongoDB on port 27017.
+You should connect to the database named learnyoumongo and insert
+a document into the docs collection.
+
+The document should be a json document with the following properties:
+
+  * `firstName`
+  * `lastName`
+
+firstName will be passed as the first argument to the lesson.
+
+lastName will be passed as the second argument to the lesson.
+
+Use console.log to print out the object used to create the document.
+
+Make sure you use JSON.stringify convert it to JSON.
+
+-------------------------------------------------------------------------------
+
+### HINTS
+
+Remember, one can access the arguments passed by using process.argv.
+
+In order to use the mongo package, one must first require it like:
+
+    var MongoClient = require('mongodb').MongoClient
+
+To connect, use the connect() function of MongoClient.
+
+Ex.
+
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err
+    
+    })
+
+If you get a Connection Refused error, make sure that mongod is still
+running.
+
+After you have successfully connected, you will need to specify a collection.
+That can be done by calling the collection() function on the db returned
+in the callback to connect.
+
+Say you wanted to specify a collection named users:
+
+    var collection = db.collection('users')
+
+To insert a document, one would need to call insert() on the collection, like this:
+
+    
+    // inserting document
+    // { a : 2 }
+    collection.insert({
+      a: 2
+    }, function(err, data) {
+      // handle error
+    
+      // other operations
+    })
+
+If your program does not finish executing, you may have forgotten to
+close the db. That can be done by calling db.close() after you
+have finished.
+
+### Resource
+
+  * http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#insert
+
+```js
+//create and and insert a json document into the docs collection
+var mongo = require('mongodb').MongoClient;
+//var assert = require('assert');
+var url = 'mongodb://localhost:27017/learnyoumongo';
+
+mongo.connect(url, function(err, client){
+   if(err){throw err.message;}
+   var thebase = client.db('learnyoumongo');
+   var collection = thebase.collection('docs');
+   
+   var makeJson = {
+      firstName: process.argv[2],
+      lastName: process.argv[3]
+    };
+  
+   collection.insert(makeJson, function(err, result) {  
+        if(err!=null){throw err;}
+        
+        console.log(JSON.stringify(makeJson));
+        
+    });
+    
+    client.close();
+});
+```
 
